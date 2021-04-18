@@ -47,20 +47,24 @@
     </div>
 
     
-
-    <div class="card" style="width: 18rem;">
-      <iframe width="280" height="155" src="https://www.youtube.com/embed/K6MyJJSm1MI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <div class="card-body">
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
+    <div id="waitList">
+      <!-- <div class="card" style="width: 18rem;">
+        <iframe width="280" height="155" src="https://www.youtube.com/embed/K6MyJJSm1MI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="card-body">
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div> -->
     </div>
 
     <script>
+      let videoQueue = null;
       const socket = io('http://localhost:6969');
       socket.emit("client_auth", "");
+      socket.emit("requestData","");
 
-      socket.on('hello', (arg) =>{
-        console.log(arg);
+      socket.on('data', (data) =>{
+        videoQueue = JSON.parse(data);
+        setUI();
       });
 
       $("#addUrl").click(function(){
@@ -90,10 +94,20 @@
 
       $("#move").click(function(){
         socket.emit("move", $("#moveInput").val());
+        $("#moveInput").val('');
       });
       $("#volume").click(function(){
         socket.emit("volume", $("#volumeInput").val());
       });
+
+
+      function setUI(){
+        let videosHTML ="";
+        for(let i =0; i < videoQueue.videos.length; i++){
+          videosHTML +='<div class="card" style="width: 18rem;"> <iframe width="280" height="155" src="'+ videoQueue.videos[i].iFrameUrl+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> <div class="card-body"> <a href="#" class="btn btn-primary">Go somewhere</a> </div> </div>'
+        }
+        $("#waitList").html(videosHTML);
+      }
 
     </script>
   </body>

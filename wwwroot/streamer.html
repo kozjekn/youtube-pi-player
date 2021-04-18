@@ -79,6 +79,8 @@
         playerReady = true;
         socket.emit("requestData","");
         event.target.playVideo();
+
+        window.setTimeout(emitCurrData(), 1000);
       }
 
       function loadVideoById(id, time = 0){
@@ -128,6 +130,18 @@
           socket.emit("currData",  JSON.stringify(videoQueue.currVideo));
         }
       }
+
+      function emitCurrData(){
+        if(playerReady && videoQueue.currVideo){
+          videoQueue.currVideo.state = player.getPlayerState();
+          videoQueue.currVideo.currTime = player.getCurrentTime();
+          videoQueue.currVideo.currDuration = player.getDuration();
+          videoQueue.currVideo.currVolume = player.getVolume();
+
+          socket.emit("currData",  JSON.stringify(videoQueue.currVideo));
+        }
+      }
+
     </script>
   </body>
 </html>

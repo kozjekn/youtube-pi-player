@@ -33,6 +33,7 @@ class Video{
         this.url = url;
         
         this.videoCode = url.split('watch?v=')[1];
+        this.iFrameUrl = 'https://www.youtube.com/embed/' + this.videoCode;
     }
 }
 

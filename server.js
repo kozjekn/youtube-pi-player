@@ -33,15 +33,11 @@ io.on("connection", (socket) => {
         // Identifies mani socket (socket that plays music)
         socket.on("main_auth",(arg) => {
             socket.join("main_sockets");
-            //EMIT TO ALL MAIN SOCKETS
-            io.in('main_sockets').local.emit("hello", "wnejc")
         });
 
         // Identifies mani socket (socket that plays music)
         socket.on("client_auth",(arg) => {
             socket.join("clients");
-            //EMIT TO ALL MAIN SOCKETS
-            io.in('clients').local.emit("hello", "wnejc")
         });
 
         //CLIENT MTHODS
@@ -67,10 +63,6 @@ io.on("connection", (socket) => {
 
             io.local.emit("newCurrData", _currVideo);
         });
-
-        //EMIT TO ALL CONNECTED CLIENTS
-        //io.local.emit("hello", "world");
-
     }catch(e){ console.log(e); }
 });
 
