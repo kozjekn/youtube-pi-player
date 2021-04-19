@@ -39,7 +39,7 @@
           else if(videoQueue.currVideo.videoCode && inStartup){
             videoQueue.currVideo.currTime = videoQueue.currVideo.currTime ? videoQueue.currVideo.currTime : 0;
             loadVideoById(videoQueue.currVideo.videoCode, videoQueue.currVideo.currTime);
-            inStartup = true;
+            inStartup = false;
           }
       });
 
@@ -118,7 +118,6 @@
       function setNextVideo(){
         if(videoQueue != null && videoQueue.videos.length > 0){
           videoQueue.currVideo = videoQueue.videos.shift();
-          socket.emit("removeVideo", videoQueue.currVideo.videoID);
           if(playerReady)
           {
             loadVideoById(videoQueue.currVideo.videoCode);
@@ -128,6 +127,7 @@
             videoQueue.currVideo.currVolume = player.getVolume();
           }
           socket.emit("currData",  JSON.stringify(videoQueue.currVideo));
+          socket.emit("removeVideo", videoQueue.currVideo.videoID);
         }
       }
 

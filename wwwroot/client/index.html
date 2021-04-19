@@ -104,9 +104,13 @@
       function setUI(){
         let videosHTML ="";
         for(let i =0; i < videoQueue.videos.length; i++){
-          videosHTML +='<div class="card" style="width: 18rem;"> <iframe width="280" height="155" src="'+ videoQueue.videos[i].iFrameUrl+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> <div class="card-body"> <a href="#" class="btn btn-primary">Go somewhere</a> </div> </div>'
+          videosHTML +='<div class="card" style="width: 18rem;"> <iframe width="280" height="155" src="'+ videoQueue.videos[i].iFrameUrl+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> <div class="card-body"> <a href="#" class="btn btn-danger" '+ 'onclick="removeVideo('+ videoQueue.videos[i].videoID +')"' +'>Delete</a> </div> </div>'
         }
         $("#waitList").html(videosHTML);
+      }
+
+      function removeVideo(videoID){
+        socket.emit("removeVideo", videoID);
       }
 
     </script>
