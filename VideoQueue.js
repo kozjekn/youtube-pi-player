@@ -17,10 +17,13 @@ class VideoQueue{
     }
 
     addVideo(url){
-        let video = new Video(this.nextVideoID, url);
-        this.videos.push(video);
-        this.nextVideoID ++;
-        return video;
+        if(url.split('watch?v=').length > 1)
+        {
+            let video = new Video(this.nextVideoID, url);
+            this.videos.push(video);
+            this.nextVideoID ++;
+            return video;
+        }
     }
 
     removeVideo(videoID){
@@ -33,7 +36,7 @@ class Video{
     constructor(videoID, url){
         this.videoID = videoID;
         this.url = url;
-        
+
         this.videoCode = url.split('watch?v=')[1].split('&')[0];
         this.iFrameUrl = 'https://www.youtube.com/embed/' + this.videoCode;
     }
