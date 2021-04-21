@@ -24,6 +24,7 @@ class VideoQueue{
             this.nextVideoID ++;
             return video;
         }
+        return null;
     }
 
     removeVideo(videoID){
