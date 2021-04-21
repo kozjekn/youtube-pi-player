@@ -44,11 +44,15 @@ io.on("connection", (socket) => {
 
         //CLIENT MTHODS
         socket.on("requestData", (arg) =>{ socket.emit('data', JSON.stringify(videoQueue)); });
-        socket.on("addVideo", (url) =>{ 
-            last1000Vides.push(videoQueue.addVideo(url));
-            if(last1000Vides.length > 1000) {
-                last1000Vides.shift();
-            } 
+        socket.on("addVideo", (url) =>{
+            let video = videoQueue.addVideo(url);
+            if(video != null)
+            {
+                last1000Vides.push(video);
+                if(last1000Vides.length > 1000) {
+                    last1000Vides.shift();
+                } 
+            }            
             io.local.emit('data', JSON.stringify(videoQueue)); 
         });
 
