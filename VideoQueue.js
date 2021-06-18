@@ -16,15 +16,24 @@ class VideoQueue{
         this.nextVideoID = 1;
     }
 
+    getNextVideoID(){
+        this.nextVideoID ++;
+        return this.nextVideoID;
+    }
+
     addVideo(url){
-        if(url.split('watch?v=').length > 1)
-        {
-            let video = new Video(this.nextVideoID, url);
-            this.videos.push(video);
-            this.nextVideoID ++;
-            return video;
+        try{
+            if(url.split('watch?v=').length > 1)
+            {
+                let video = new Video(this.getNextVideoID(), url);
+                this.videos.push(video);
+                return video;
+            }
+            return null;
         }
-        return null;
+        catch(e){
+            return null;
+        }
     }
 
     removeVideo(videoID){
