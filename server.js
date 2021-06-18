@@ -27,10 +27,6 @@ const io = require("socket.io")(httpServer, {
     }
 });
 
-require('dns').lookup(require('os').hostname(), function (err, add, fam) {
-    fs.writeFileSync('wwwroot/client/globals.js',"var serverAddr = 'http://"+add+":6969'")
-})
-
 let videoQueue = new VideoQueue();
 let last1000Vides = []
 

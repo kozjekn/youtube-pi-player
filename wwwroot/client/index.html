@@ -15,7 +15,6 @@
         padding: 10px;
       }
     </style>
-    <script src="./globals.js"></script>
   </head>
   <body>
     <h1>Control Panel</h1>
@@ -75,6 +74,7 @@
     </div>
 
     <script>
+      var serverAddr = 'http://'+window.location.hostname+':6969'
       let videoQueue = null;
       const socket = io(serverAddr);
       socket.emit("client_auth", "");
