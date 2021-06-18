@@ -46,8 +46,8 @@ class Video{
     constructor(videoID, url){
         this.videoID = videoID;
         this.url = url;
-
         this.videoCode = url.split('watch?v=')[1].split('&')[0];
+        this.slimedUrl = 'https://www.youtube.com/watch?v=' + this.videoCode;
         this.iFrameUrl = 'https://www.youtube.com/embed/' + this.videoCode;
     }
 }

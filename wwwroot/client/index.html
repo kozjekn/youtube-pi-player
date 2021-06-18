@@ -127,7 +127,20 @@
       function setUI(){
         let videosHTML ="";
         for(let i =0; i < videoQueue.videos.length; i++){
-          videosHTML +='<div class="card" style="width: 18rem; margin-top: 1px;"> <iframe width="280" height="155" src="'+ videoQueue.videos[i].iFrameUrl+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> <div class="card-body"> <a href="#" class="btn btn-danger" '+ 'onclick="removeVideo('+ videoQueue.videos[i].videoID +')"' +'>Delete</a> </div> </div>'
+          if(i % 6 == 0){
+            videosHTML += '<div class="row">';
+          }
+          if(i < 3)
+          {
+            videosHTML +='<div class="col-md-2"><div class="card" style="width: 18rem; margin-top: 1px;"> <iframe width="280" height="155" src="'+ videoQueue.videos[i].iFrameUrl+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> <div class="card-body"> <a href="#" class="btn btn-danger" '+ 'onclick="removeVideo('+ videoQueue.videos[i].videoID +')"' +'>Delete</a> </div> </div></div>'
+          }
+          else{
+            videosHTML +='<div class="col-md-2"><div class="card" style="width: 18rem; margin-top: 1px;"><a href="'+videoQueue.videos[i].slimedUrl+'" class="link-info" style="margin: auto auto" target="_blank" rel="noopener noreferrer">Link to video</a><div class="card-body"> <a href="#" class="btn btn-danger" '+ 'onclick="removeVideo('+ videoQueue.videos[i].videoID +')"' +'>Delete</a> </div> </div></div>'
+          }
+          
+        }
+        if(videoQueue.videos.length != 0){
+          videosHTML += '</div>'
         }
         $("#waitList").html(videosHTML);
       }

@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
                     let r = getRandom(0, keys.length - 1);
                     if(!addedVideos.includes(r))
                     {
-                        let rndVideo = storedVideos[keys[r]];
+                        let rndVideo = JSON.parse(JSON.stringify(storedVideos[keys[r]]));;
                         rndVideo.videoID = videoQueue.getNextVideoID();
                         videoQueue.videos.push(rndVideo);
                         addedVideos.push(r);
