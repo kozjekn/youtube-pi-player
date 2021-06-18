@@ -15,6 +15,7 @@
         padding: 10px;
       }
     </style>
+    <script src="./globals.js"></script>
   </head>
   <body>
     <h1>Control Panel</h1>
@@ -75,7 +76,7 @@
 
     <script>
       let videoQueue = null;
-      const socket = io('http://localhost:6969');
+      const socket = io(serverAddr);
       socket.emit("client_auth", "");
       socket.emit("requestData","");
 
