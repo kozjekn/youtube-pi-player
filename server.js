@@ -6,8 +6,8 @@ const express = require('express')
 const fs = require('fs');
 const cors = require('cors');
 const VideoQueue = require('./VideoQueue.js');
-const puppeteer = require('puppeteer');
 const path = require('path');
+const config = require('./config.json')
 
 const httpServer = require("http").createServer(function (req, res) {;
     
@@ -145,29 +145,30 @@ console.log('Listening on port '+ PORT_WEB);
 httpServer.listen(PORT_SOCKET);
 console.log('Listening on port '+ PORT_SOCKET);
 
-//Open browser
-(async () => {
-    const pathToExtension = path.resolve(__dirname, 'adblocker');
-    const browser = await puppeteer.launch({headless:false,defaultViewport: null, ignoreHTTPSErrors: true,ignoreDefaultArgs: ["--disable-extensions","--enable-automation"], args:['--start-maximized',`--disable-extensions-except=${pathToExtension}`,`--load-extension=${process.env.extdarkreader}`]}); //args:['--kiosk']
-    setTimeout(async() => { 
-        const page = await browser.newPage();
-        //await page.setViewport({ width: 1366, height: 768});
-        await page.goto('http://localhost:6969/pi-streamer');
+if(config.UsePuppeteer){
+    const puppeteer = require('puppeteer');
+    //Open browser
+    (async () => {
+        const pathToExtension = path.resolve(__dirname, 'adblocker');
+        const browser = await puppeteer.launch({headless:false,defaultViewport: null, ignoreHTTPSErrors: true,ignoreDefaultArgs: ["--disable-extensions","--enable-automation"], args:['--start-maximized',`--disable-extensions-except=${pathToExtension}`,`--load-extension=${process.env.extdarkreader}`]}); //args:['--kiosk']
+        setTimeout(async() => { 
+            const page = await browser.newPage();
+            //await page.setViewport({ width: 1366, height: 768});
+            await page.goto('http://localhost:6969/pi-streamer');
 
-        const pages = await browser.pages();
-        for(let i = 0; i < pages.length; i++){
-            let p = pages[i];
-            if(p.url() != 'http://localhost:6969/pi-streamer'){
-                p.close();
+            const pages = await browser.pages();
+            for(let i = 0; i < pages.length; i++){
+                let p = pages[i];
+                if(p.url() != 'http://localhost:6969/pi-streamer'){
+                    p.close();
+                }
             }
-        }
 
-        await page.click(
-            "#player"
-          );
-    }, 10000);
+            await page.click(
+                "#player"
+            );
+        }, 10000);
+    })();
+}
 
-    
-    // other actions...
-  })();
 
